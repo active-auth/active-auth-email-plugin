@@ -5,6 +5,8 @@ import cn.glogs.active_auth.iam_plugin.email.repository.EmailOneTimeCodeReposito
 import cn.glogs.active_auth.iam_plugin.email.service.EmailOneTimeCodeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailOneTimeCodeServiceImpl implements EmailOneTimeCodeService {
 
@@ -22,6 +24,8 @@ public class EmailOneTimeCodeServiceImpl implements EmailOneTimeCodeService {
 
     @Override
     public boolean checkCode(String email, String code) {
-        return false;
+        List<EmailOneTimeCode> codes = emailOneTimeCodeRepository.findByEmailAddressAndCodeOrderByCreatedAtDesc(email, code);
+        if (codes.isEmpty()) return false;
+        return codes.get(0).valid();
     }
 }

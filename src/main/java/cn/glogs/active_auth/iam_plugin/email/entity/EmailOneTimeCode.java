@@ -35,4 +35,8 @@ public class EmailOneTimeCode {
         calendar.add(Calendar.MINUTE, 15);
         expireAt = calendar.getTime();
     }
+
+    public boolean valid() {
+        return expireAt != null && new Date().before(expireAt);
+    }
 }

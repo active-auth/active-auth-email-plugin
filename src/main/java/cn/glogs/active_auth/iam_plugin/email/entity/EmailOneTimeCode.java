@@ -25,6 +25,7 @@ public class EmailOneTimeCode {
     private Date expireAt;
     private Date createdAt;
     private Date updatedAt;
+    private boolean valid;
 
     public EmailOneTimeCode(String email) {
         Calendar calendar = Calendar.getInstance();
@@ -34,9 +35,10 @@ public class EmailOneTimeCode {
         createdAt = now;
         calendar.add(Calendar.MINUTE, 15);
         expireAt = calendar.getTime();
+        valid = true;
     }
 
-    public boolean valid() {
-        return expireAt != null && new Date().before(expireAt);
+    public boolean ifValid() {
+        return expireAt != null && new Date().before(expireAt) && valid;
     }
 }

@@ -26,6 +26,9 @@ public class EmailOneTimeCodeServiceImpl implements EmailOneTimeCodeService {
     public boolean checkCode(String email, String code) {
         List<EmailOneTimeCode> codes = emailOneTimeCodeRepository.findByEmailAddressAndCodeOrderByCreatedAtDesc(email, code);
         if (codes.isEmpty()) return false;
-        return codes.get(0).valid();
+        EmailOneTimeCode oneTimeCode = new EmailOneTimeCode();
+        oneTimeCode.setValid(true);
+        emailOneTimeCodeRepository.save(oneTimeCode);
+        return oneTimeCode.ifValid();
     }
 }
